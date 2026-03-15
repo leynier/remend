@@ -1,8 +1,9 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// A lightweight library that intelligently completes incomplete Markdown
+/// syntax during streaming.
 library;
 
-export 'src/remend_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/link_mode.dart';
+export 'src/remend.dart';
+export 'src/remend_handler.dart';
+export 'src/remend_options.dart';
+export 'src/utils.dart';

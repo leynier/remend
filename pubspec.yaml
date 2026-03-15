@@ -1,14 +1,12 @@
 name: remend
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: >-
+  A lightweight, zero-dependency library that intelligently completes
+  incomplete Markdown syntax during streaming.
+version: 0.0.1
+repository: https://github.com/leynier/remend
 
 environment:
   sdk: ^3.11.1
-
-# Add regular dependencies here.
-dependencies:
-  # path: ^1.9.0
 
 dev_dependencies:
   lints: ^6.0.0
