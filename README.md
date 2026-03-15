@@ -3,6 +3,7 @@
 Self-healing markdown. Intelligently parses and styles incomplete Markdown blocks.
 
 [![pub version](https://img.shields.io/pub/v/remend)](https://pub.dev/packages/remend)
+[![npm version](https://img.shields.io/npm/v/remend)](https://www.npmjs.com/package/remend)
 
 > **This is a Dart port of the [`remend`](https://www.npmjs.com/package/remend) npm package.**
 > The original TypeScript implementation is part of the [Streamdown](https://github.com/vercel/streamdown) project by Vercel.
@@ -42,7 +43,7 @@ Remend intelligently completes the following incomplete Markdown patterns:
 
 ```yaml
 dependencies:
-  remend: ^0.0.1
+  remend: ^1.2.2
 ```
 
 ## Usage

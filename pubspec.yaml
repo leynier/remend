@@ -2,7 +2,7 @@ name: remend
 description: >-
   A lightweight, zero-dependency library that intelligently completes
   incomplete Markdown syntax during streaming.
-version: 0.0.1
+version: 1.2.2
 repository: https://github.com/leynier/remend
 
 environment:
