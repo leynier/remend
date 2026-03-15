@@ -1,0 +1,188 @@
+name: Sync Streamdown Submodule
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout with submodule
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Record current submodule commit
+        id: old
+        run: |
+          OLD_COMMIT=$(git -C streamdown rev-parse HEAD)
+          echo "commit=$OLD_COMMIT" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch latest upstream for submodule
+        run: git -C streamdown fetch origin
+
+      - name: Determine latest upstream commit
+        id: new
+        run: |
+          NEW_COMMIT=$(git -C streamdown rev-parse origin/main)
+          echo "commit=$NEW_COMMIT" >> "$GITHUB_OUTPUT"
+
+      - name: Check if submodule is already up to date
+        id: check
+        run: |
+          if [ "${{ steps.old.outputs.commit }}" = "${{ steps.new.outputs.commit }}" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check for remend package changes
+        if: steps.check.outputs.changed == 'true'
+        id: remend
+        run: |
+          OLD="${{ steps.old.outputs.commit }}"
+          NEW="${{ steps.new.outputs.commit }}"
+          git -C streamdown diff "$OLD" "$NEW" -- \
+            packages/remend/src/ \
+            packages/remend/__tests__/ \
+            packages/remend/package.json \
+            packages/remend/README.md \
+            packages/remend/CHANGELOG.md > /tmp/remend_diff.patch
+          if [ ! -s /tmp/remend_diff.patch ]; then
+            echo "has_remend_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_remend_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update submodule and push (no remend changes)
+        if: steps.check.outputs.changed == 'true' && steps.remend.outputs.has_remend_changes == 'false'
+        run: |
+          git -C streamdown checkout "${{ steps.new.outputs.commit }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add streamdown
+          git commit -m "chore: update streamdown submodule"
+          git push
+
+      - name: Create or update issue for remend changes
+        if: steps.check.outputs.changed == 'true' && steps.remend.outputs.has_remend_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OLD="${{ steps.old.outputs.commit }}"
+          NEW="${{ steps.new.outputs.commit }}"
+          OLD_SHORT=$(echo "$OLD" | head -c 7)
+          NEW_SHORT=$(echo "$NEW" | head -c 7)
+
+          EXISTING_NUMBER=$(gh issue list \
+            --label "upstream-sync" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')
+
+          DIFF_BYTES=$(wc -c < /tmp/remend_diff.patch)
+          MAX_BYTES=50000
+          if [ "$DIFF_BYTES" -gt "$MAX_BYTES" ]; then
+            head -c "$MAX_BYTES" /tmp/remend_diff.patch > /tmp/remend_diff_truncated.patch
+            mv /tmp/remend_diff_truncated.patch /tmp/remend_diff.patch
+            TRUNCATED_NOTE="> **Note:** The diff was truncated (${DIFF_BYTES} bytes total, showing first ${MAX_BYTES}). Run \`git -C streamdown diff ${OLD_SHORT} ${NEW_SHORT} -- packages/remend/\` locally for the full diff."
+          else
+            TRUNCATED_NOTE=""
+          fi
+
+          VERSION_CHANGE=""
+          VERSION_DIFF=$(git -C streamdown diff "$OLD" "$NEW" -- packages/remend/package.json)
+          if [ -n "$VERSION_DIFF" ]; then
+            OLD_VERSION=$(git -C streamdown show "${OLD}:packages/remend/package.json" 2>/dev/null | grep '"version"' | head -1 | sed 's/.*"\([0-9][^"]*\)".*/\1/')
+            NEW_VERSION=$(git -C streamdown show "${NEW}:packages/remend/package.json" 2>/dev/null | grep '"version"' | head -1 | sed 's/.*"\([0-9][^"]*\)".*/\1/')
+            if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
+              VERSION_CHANGE="### Version change
+
+          \`${OLD_VERSION}\` → \`${NEW_VERSION}\`
+
+          Update \`version\` in \`pubspec.yaml\` to match."
+            fi
+          fi
+
+          # Build issue body as a file to avoid shell quoting issues
+          {
+            echo "## Upstream remend package has changes"
+            echo ""
+            echo "The \`streamdown\` submodule has new commits that include changes to \`packages/remend/\`."
+            echo "These changes require a manual update to maintain 1:1 parity with the Dart port."
+            echo ""
+            echo "**Submodule commits:** [\`${OLD_SHORT}\`](https://github.com/vercel/streamdown/commit/${OLD}) → [\`${NEW_SHORT}\`](https://github.com/vercel/streamdown/commit/${NEW})"
+            echo "**Compare:** https://github.com/vercel/streamdown/compare/${OLD}...${NEW}"
+            echo ""
+            if [ -n "$VERSION_CHANGE" ]; then
+              echo "$VERSION_CHANGE"
+              echo ""
+            fi
+            echo "### Changed files"
+            echo ""
+            SRC_DIFF=$(git -C streamdown diff --name-only "$OLD" "$NEW" -- packages/remend/src/)
+            if [ -n "$SRC_DIFF" ]; then
+              echo "**Source files changed:**"
+              echo "\`\`\`"
+              echo "$SRC_DIFF"
+              echo "\`\`\`"
+              echo ""
+            fi
+            TEST_DIFF=$(git -C streamdown diff --name-only "$OLD" "$NEW" -- packages/remend/__tests__/)
+            if [ -n "$TEST_DIFF" ]; then
+              echo "**Test files changed:**"
+              echo "\`\`\`"
+              echo "$TEST_DIFF"
+              echo "\`\`\`"
+              echo ""
+            fi
+            echo "### Diff"
+            echo ""
+            echo "<details>"
+            echo "<summary>Click to expand full diff</summary>"
+            echo ""
+            echo "\`\`\`diff"
+            cat /tmp/remend_diff.patch
+            echo "\`\`\`"
+            if [ -n "$TRUNCATED_NOTE" ]; then
+              echo ""
+              echo "$TRUNCATED_NOTE"
+            fi
+            echo ""
+            echo "</details>"
+            echo ""
+            echo "### Checklist"
+            echo ""
+            echo "Follow the [upstream sync strategy](https://github.com/leynier/remend/blob/main/AGENTS.md#upstream-sync-strategy):"
+            echo ""
+            echo "- [ ] Update submodule: \`git submodule update --remote streamdown\`"
+            echo "- [ ] Apply equivalent changes to each modified \`.dart\` file in \`lib/src/\`"
+            echo "- [ ] Apply equivalent changes to each modified test file in \`test/\`"
+            echo "- [ ] If version changed: update \`version\` in \`pubspec.yaml\`"
+            echo "- [ ] Update \`CHANGELOG.md\` with a new entry"
+            echo "- [ ] If README changed upstream: update Dart \`README.md\`"
+            echo "- [ ] Run \`dart format . && dart analyze --fatal-infos && dart test\`"
+            echo "- [ ] Commit with submodule pointer update included"
+          } > /tmp/issue_body.md
+
+          TITLE="upstream sync: remend package changed (${OLD_SHORT}..${NEW_SHORT})"
+
+          if [ -n "$EXISTING_NUMBER" ]; then
+            gh issue edit "$EXISTING_NUMBER" \
+              --title "$TITLE" \
+              --body-file /tmp/issue_body.md
+            echo "Updated existing issue #${EXISTING_NUMBER}"
+          else
+            gh issue create \
+              --title "$TITLE" \
+              --label "upstream-sync" \
+              --body-file /tmp/issue_body.md
+          fi
