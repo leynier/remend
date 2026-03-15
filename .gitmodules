@@ -1,0 +1,3 @@
+[submodule "streamdown"]
+	path = streamdown
+	url = https://github.com/vercel/streamdown.git
