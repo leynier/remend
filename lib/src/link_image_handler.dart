@@ -1,6 +1,14 @@
 import 'code_block_utils.dart';
-import 'link_mode.dart';
 import 'utils.dart';
+
+/// Determines how incomplete links are handled.
+enum LinkMode {
+  /// Replace incomplete URL with `streamdown:incomplete-link` placeholder.
+  protocol,
+
+  /// Remove link markup and show only the link text.
+  textOnly,
+}
 
 // Helper function to handle incomplete URLs in links/images
 String? _handleIncompleteUrl(
