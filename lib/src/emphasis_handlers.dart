@@ -236,7 +236,9 @@ bool _shouldSkipBoldCompletion(
   // Check if this is in a list item with multiline content
   final beforeMarker = text.substring(0, markerIndex);
   final lastNewlineBeforeMarker = beforeMarker.lastIndexOf('\n');
-  final lineStart = lastNewlineBeforeMarker == -1 ? 0 : lastNewlineBeforeMarker + 1;
+  final lineStart = lastNewlineBeforeMarker == -1
+      ? 0
+      : lastNewlineBeforeMarker + 1;
   final lineBeforeMarker = text.substring(lineStart, markerIndex);
   if (listItemPattern.hasMatch(lineBeforeMarker)) {
     final hasNewlineInContent = contentAfterMarker.contains('\n');
@@ -282,7 +284,9 @@ bool _shouldSkipItalicCompletion(
   // Check if this is in a list item with multiline content
   final beforeMarker = text.substring(0, markerIndex);
   final lastNewlineBeforeMarker = beforeMarker.lastIndexOf('\n');
-  final lineStart = lastNewlineBeforeMarker == -1 ? 0 : lastNewlineBeforeMarker + 1;
+  final lineStart = lastNewlineBeforeMarker == -1
+      ? 0
+      : lastNewlineBeforeMarker + 1;
   final lineBeforeMarker = text.substring(lineStart, markerIndex);
   if (listItemPattern.hasMatch(lineBeforeMarker)) {
     final hasNewlineInContent = contentAfterMarker.contains('\n');
@@ -303,8 +307,7 @@ String handleIncompleteDoubleUnderscoreItalic(String text) {
       final markerIndex = text.lastIndexOf(halfCompleteMatch[1]!);
       if (!(isInsideCodeBlock(text, markerIndex) ||
           isWithinCompleteInlineCode(text, markerIndex))) {
-        final underscorePairs =
-            _countDoubleUnderscoresOutsideCodeBlocks(text);
+        final underscorePairs = _countDoubleUnderscoresOutsideCodeBlocks(text);
         if (underscorePairs % 2 == 1) return '${text}_';
       }
     }
@@ -384,8 +387,9 @@ String handleIncompleteSingleAsteriskItalic(String text) {
     return text;
   }
   // Get content after the first single asterisk
-  final contentAfterFirstAsterisk =
-      text.substring(firstSingleAsteriskIndex + 1);
+  final contentAfterFirstAsterisk = text.substring(
+    firstSingleAsteriskIndex + 1,
+  );
   // Check if there's meaningful content after the asterisk
   // Don't close if content is only whitespace or emphasis markers
   if (contentAfterFirstAsterisk.isEmpty ||
@@ -453,14 +457,15 @@ String _insertClosingUnderscore(String text) {
 String? _handleTrailingAsterisksForUnderscore(String text) {
   if (!text.endsWith('**')) return null;
   final textWithoutTrailingAsterisks = text.substring(0, text.length - 2);
-  final asteriskPairsAfterRemoval =
-      _countDoubleAsterisksOutsideCodeBlocks(textWithoutTrailingAsterisks);
+  final asteriskPairsAfterRemoval = _countDoubleAsterisksOutsideCodeBlocks(
+    textWithoutTrailingAsterisks,
+  );
   // If removing trailing ** makes the count odd, it was added to close an unclosed **
   if (asteriskPairsAfterRemoval % 2 != 1) return null;
-  final firstDoubleAsteriskIndex =
-      textWithoutTrailingAsterisks.indexOf('**');
-  final underscoreIndex =
-      _findFirstSingleUnderscoreIndex(textWithoutTrailingAsterisks);
+  final firstDoubleAsteriskIndex = textWithoutTrailingAsterisks.indexOf('**');
+  final underscoreIndex = _findFirstSingleUnderscoreIndex(
+    textWithoutTrailingAsterisks,
+  );
   // If ** opened before _, then _ should close before **
   if (firstDoubleAsteriskIndex != -1 &&
       underscoreIndex != -1 &&
@@ -477,8 +482,9 @@ String handleIncompleteSingleUnderscoreItalic(String text) {
   final firstSingleUnderscoreIndex = _findFirstSingleUnderscoreIndex(text);
   if (firstSingleUnderscoreIndex == -1) return text;
   // Get content after the first single underscore
-  final contentAfterFirstUnderscore =
-      text.substring(firstSingleUnderscoreIndex + 1);
+  final contentAfterFirstUnderscore = text.substring(
+    firstSingleUnderscoreIndex + 1,
+  );
   // Check if there's meaningful content after the underscore
   // Don't close if content is only whitespace or emphasis markers
   if (contentAfterFirstUnderscore.isEmpty ||

@@ -31,13 +31,10 @@ void main() {
       );
     });
 
-    test(
-      'should handle mixed list markers and italic formatting',
-      () {
-        const text = '* First item\n* Second *italic* item\n* Third item';
-        expect(remend(text), equals(text));
-      },
-    );
+    test('should handle mixed list markers and italic formatting', () {
+      const text = '* First item\n* Second *italic* item\n* Third item';
+      expect(remend(text), equals(text));
+    });
 
     test('should handle lists with tabs for indentation', () {
       const text = '*\tItem with tab\n*\tAnother item';

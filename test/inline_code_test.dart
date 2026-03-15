@@ -38,7 +38,8 @@ void main() {
       expect(remend(text), equals('```python print("Hello, Sunnyvale!")```'));
     });
 
-    test('should not modify text with complete triple backticks at the end',
+    test(
+      'should not modify text with complete triple backticks at the end',
       () {
         const text = '```code```';
         expect(remend(text), equals(text));
@@ -55,7 +56,8 @@ void main() {
       },
     );
 
-    test('should handle code block with incomplete inline code after (#302)',
+    test(
+      'should handle code block with incomplete inline code after (#302)',
       () {
         expect(
           remend('```\nblock\n```\n`inline'),
@@ -74,7 +76,8 @@ void main() {
       );
     });
 
-    test('should complete emphasis when only escaped backticks are present',
+    test(
+      'should complete emphasis when only escaped backticks are present',
       () {
         expect(remend('\\` *italic'), equals('\\` *italic*'));
       },

@@ -30,10 +30,7 @@ void main() {
     });
 
     test('should escape > before dollar amounts', () {
-      expect(
-        remend(r'- > $100: expensive'),
-        equals(r'- \> $100: expensive'),
-      );
+      expect(remend(r'- > $100: expensive'), equals(r'- \> $100: expensive'));
     });
 
     test('should handle the issue example correctly', () {
@@ -51,10 +48,7 @@ void main() {
     });
 
     test('should handle multiple comparison operators in a list', () {
-      final input = [
-        '- > 5: expensive',
-        '- > 25: very expensive',
-      ].join('\n');
+      final input = ['- > 5: expensive', '- > 25: very expensive'].join('\n');
       final expected = [
         '- \\> 5: expensive',
         '- \\> 25: very expensive',
@@ -68,10 +62,7 @@ void main() {
     });
 
     test('should not escape > when followed by non-digit text', () {
-      expect(
-        remend('- > Some quoted text'),
-        equals('- > Some quoted text'),
-      );
+      expect(remend('- > Some quoted text'), equals('- > Some quoted text'));
       expect(
         remend('- > Read more about this'),
         equals('- > Read more about this'),
@@ -96,10 +87,7 @@ void main() {
 
     test('should be disabled when comparisonOperators option is false', () {
       expect(
-        remend(
-          '- > 25: rich',
-          RemendOptions(comparisonOperators: false),
-        ),
+        remend('- > 25: rich', RemendOptions(comparisonOperators: false)),
         equals('- > 25: rich'),
       );
     });

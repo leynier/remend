@@ -5,8 +5,9 @@ final _tripleBacktickPattern = RegExp(r'```');
 
 // Helper function to check for incomplete inline triple backticks
 String? _handleInlineTripleBackticks(String text) {
-  final inlineTripleBacktickMatch =
-      inlineTripleBacktickPattern.firstMatch(text);
+  final inlineTripleBacktickMatch = inlineTripleBacktickPattern.firstMatch(
+    text,
+  );
   if (inlineTripleBacktickMatch == null || text.contains('\n')) return null;
   // Check if it ends with exactly 2 backticks (incomplete)
   if (text.endsWith('``') && !text.endsWith('```')) return '$text`';

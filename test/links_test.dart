@@ -83,10 +83,7 @@ void main() {
         remend('Text with [incomplete link', textOnlyOptions),
         equals('Text with incomplete link'),
       );
-      expect(
-        remend('Text [partial', textOnlyOptions),
-        equals('Text partial'),
-      );
+      expect(remend('Text [partial', textOnlyOptions), equals('Text partial'));
     });
 
     test('should keep complete links unchanged', () {

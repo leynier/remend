@@ -123,12 +123,15 @@ bool isWithinLinkOrImageUrl(String text, int position) {
 bool isWithinHtmlTag(String text, int position) {
   // Search backwards from position to find < or >
   for (var i = position - 1; i >= 0; i -= 1) {
-    if (text[i] == '>') return false; // Found closing > first — we're outside a tag
+    if (text[i] == '>') {
+      return false; // Found closing > first — we're outside a tag
+    }
     if (text[i] == '<') {
       // Found opening < — check it starts a valid tag (followed by letter or /)
       final nextChar = i + 1 < text.length ? text[i + 1] : '';
       if (nextChar.isNotEmpty &&
-          ((nextChar.codeUnitAt(0) >= 97 && nextChar.codeUnitAt(0) <= 122) || // a-z
+          ((nextChar.codeUnitAt(0) >= 97 &&
+                  nextChar.codeUnitAt(0) <= 122) || // a-z
               (nextChar.codeUnitAt(0) >= 65 &&
                   nextChar.codeUnitAt(0) <= 90) || // A-Z
               nextChar == '/')) {

@@ -73,11 +73,7 @@ int _findFirstIncompleteBracket(String text, int maxPos) {
 }
 
 // Helper function to handle incomplete link text (unclosed brackets)
-String? _handleIncompleteText(
-  String text,
-  int i,
-  LinkMode linkMode,
-) {
+String? _handleIncompleteText(String text, int i, LinkMode linkMode) {
   // Check if there's a ! before it
   final isImage = i > 0 && text[i - 1] == '!';
   final openIndex = isImage ? i - 1 : i;

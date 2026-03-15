@@ -19,10 +19,7 @@ void main() {
     });
 
     test('should handle blockquotes with incomplete formatting', () {
-      expect(
-        remend('> Quote with **bold'),
-        equals('> Quote with **bold**'),
-      );
+      expect(remend('> Quote with **bold'), equals('> Quote with **bold**'));
     });
 
     test('should handle tables with incomplete formatting', () {
@@ -40,10 +37,7 @@ void main() {
     });
 
     test('should handle multiple incomplete formats in one chunk', () {
-      expect(
-        remend('Text **bold `code'),
-        equals('Text **bold `code**`'),
-      );
+      expect(remend('Text **bold `code'), equals('Text **bold `code**`'));
     });
   });
 
@@ -60,10 +54,7 @@ void main() {
       expect(remend(chunks[0]), equals('Here is'));
       expect(remend(chunks[1]), equals('Here is a **bold**'));
       expect(remend(chunks[2]), equals('Here is a **bold statement**'));
-      expect(
-        remend(chunks[3]),
-        equals('Here is a **bold statement** about'),
-      );
+      expect(remend(chunks[3]), equals('Here is a **bold statement** about'));
       expect(
         remend(chunks[4]),
         equals('Here is a **bold statement** about `code`'),

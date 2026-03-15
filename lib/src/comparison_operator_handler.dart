@@ -7,8 +7,10 @@ import 'code_block_utils.dart';
 // Match list items where > appears as a comparison operator followed by a digit
 // Pattern: list marker (-, *, +, or 1.) followed by > then optional = and a digit
 // The \d check ensures we only escape > when it's clearly a comparison (not a real blockquote)
-final _listComparisonPattern =
-    RegExp(r'^(\s*(?:[-*+]|\d+[.)]) +)>(=?\s*[$]?\d)', multiLine: true);
+final _listComparisonPattern = RegExp(
+  r'^(\s*(?:[-*+]|\d+[.)]) +)>(=?\s*[$]?\d)',
+  multiLine: true,
+);
 
 String handleComparisonOperators(String text) {
   // Quick check: if there's no > in the text, skip processing

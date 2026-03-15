@@ -132,138 +132,142 @@ class _HandlerEntry {
 }
 
 // Built-in handlers with their option keys and priorities
-final _builtInHandlers = <({
-  RemendHandler handler,
-  String optionKey,
-  bool Function(String result)? earlyReturn,
-})>[
-  (
-    handler: RemendHandler(
-      name: 'singleTilde',
-      handle: handleSingleTildeEscape,
-      priority: _priority.singleTilde,
-    ),
-    optionKey: 'singleTilde',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'comparisonOperators',
-      handle: handleComparisonOperators,
-      priority: _priority.comparisonOperators,
-    ),
-    optionKey: 'comparisonOperators',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'htmlTags',
-      handle: handleIncompleteHtmlTag,
-      priority: _priority.htmlTags,
-    ),
-    optionKey: 'htmlTags',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'setextHeadings',
-      handle: handleIncompleteSetextHeading,
-      priority: _priority.setextHeadings,
-    ),
-    optionKey: 'setextHeadings',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'links',
-      handle: handleIncompleteLinksAndImages,
-      priority: _priority.links,
-    ),
-    optionKey: 'links',
-    earlyReturn: (result) => result.endsWith('](streamdown:incomplete-link)'),
-  ),
-  (
-    handler: RemendHandler(
-      name: 'boldItalic',
-      handle: handleIncompleteBoldItalic,
-      priority: _priority.boldItalic,
-    ),
-    optionKey: 'boldItalic',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'bold',
-      handle: handleIncompleteBold,
-      priority: _priority.bold,
-    ),
-    optionKey: 'bold',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'italicDoubleUnderscore',
-      handle: handleIncompleteDoubleUnderscoreItalic,
-      priority: _priority.italicDoubleUnderscore,
-    ),
-    optionKey: 'italic',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'italicSingleAsterisk',
-      handle: handleIncompleteSingleAsteriskItalic,
-      priority: _priority.italicSingleAsterisk,
-    ),
-    optionKey: 'italic',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'italicSingleUnderscore',
-      handle: handleIncompleteSingleUnderscoreItalic,
-      priority: _priority.italicSingleUnderscore,
-    ),
-    optionKey: 'italic',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'inlineCode',
-      handle: handleIncompleteInlineCode,
-      priority: _priority.inlineCode,
-    ),
-    optionKey: 'inlineCode',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'strikethrough',
-      handle: handleIncompleteStrikethrough,
-      priority: _priority.strikethrough,
-    ),
-    optionKey: 'strikethrough',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'katex',
-      handle: handleIncompleteBlockKatex,
-      priority: _priority.katex,
-    ),
-    optionKey: 'katex',
-    earlyReturn: null,
-  ),
-  (
-    handler: RemendHandler(
-      name: 'inlineKatex',
-      handle: handleIncompleteInlineKatex,
-      priority: _priority.inlineKatex,
-    ),
-    optionKey: 'inlineKatex',
-    earlyReturn: null,
-  ),
-];
+final _builtInHandlers =
+    <
+      ({
+        RemendHandler handler,
+        String optionKey,
+        bool Function(String result)? earlyReturn,
+      })
+    >[
+      (
+        handler: RemendHandler(
+          name: 'singleTilde',
+          handle: handleSingleTildeEscape,
+          priority: _priority.singleTilde,
+        ),
+        optionKey: 'singleTilde',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'comparisonOperators',
+          handle: handleComparisonOperators,
+          priority: _priority.comparisonOperators,
+        ),
+        optionKey: 'comparisonOperators',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'htmlTags',
+          handle: handleIncompleteHtmlTag,
+          priority: _priority.htmlTags,
+        ),
+        optionKey: 'htmlTags',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'setextHeadings',
+          handle: handleIncompleteSetextHeading,
+          priority: _priority.setextHeadings,
+        ),
+        optionKey: 'setextHeadings',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'links',
+          handle: handleIncompleteLinksAndImages,
+          priority: _priority.links,
+        ),
+        optionKey: 'links',
+        earlyReturn: (result) =>
+            result.endsWith('](streamdown:incomplete-link)'),
+      ),
+      (
+        handler: RemendHandler(
+          name: 'boldItalic',
+          handle: handleIncompleteBoldItalic,
+          priority: _priority.boldItalic,
+        ),
+        optionKey: 'boldItalic',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'bold',
+          handle: handleIncompleteBold,
+          priority: _priority.bold,
+        ),
+        optionKey: 'bold',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'italicDoubleUnderscore',
+          handle: handleIncompleteDoubleUnderscoreItalic,
+          priority: _priority.italicDoubleUnderscore,
+        ),
+        optionKey: 'italic',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'italicSingleAsterisk',
+          handle: handleIncompleteSingleAsteriskItalic,
+          priority: _priority.italicSingleAsterisk,
+        ),
+        optionKey: 'italic',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'italicSingleUnderscore',
+          handle: handleIncompleteSingleUnderscoreItalic,
+          priority: _priority.italicSingleUnderscore,
+        ),
+        optionKey: 'italic',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'inlineCode',
+          handle: handleIncompleteInlineCode,
+          priority: _priority.inlineCode,
+        ),
+        optionKey: 'inlineCode',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'strikethrough',
+          handle: handleIncompleteStrikethrough,
+          priority: _priority.strikethrough,
+        ),
+        optionKey: 'strikethrough',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'katex',
+          handle: handleIncompleteBlockKatex,
+          priority: _priority.katex,
+        ),
+        optionKey: 'katex',
+        earlyReturn: null,
+      ),
+      (
+        handler: RemendHandler(
+          name: 'inlineKatex',
+          handle: handleIncompleteInlineKatex,
+          priority: _priority.inlineKatex,
+        ),
+        optionKey: 'inlineKatex',
+        earlyReturn: null,
+      ),
+    ];
 
 // Helper to check if an option is enabled by its key name
 bool _isOptionEnabled(RemendOptions options, String optionKey) {
@@ -310,8 +314,9 @@ List<_HandlerEntry> _getEnabledBuiltInHandlers(RemendOptions options) {
               priority: entry.handler.priority,
             ),
             // Only use early return for protocol mode (text-only won't end with the marker)
-            earlyReturn:
-                linkMode == LinkMode.protocol ? entry.earlyReturn : null,
+            earlyReturn: linkMode == LinkMode.protocol
+                ? entry.earlyReturn
+                : null,
           );
         }
         return _HandlerEntry(
@@ -325,10 +330,9 @@ List<_HandlerEntry> _getEnabledBuiltInHandlers(RemendOptions options) {
 // Parses markdown text and removes incomplete tokens to prevent partial rendering
 String remend(String text, [RemendOptions options = const RemendOptions()]) {
   // Remove trailing whitespace if it's not a double space
-  var result =
-      text.endsWith(' ') && !text.endsWith('  ')
-          ? text.substring(0, text.length - 1)
-          : text;
+  var result = text.endsWith(' ') && !text.endsWith('  ')
+      ? text.substring(0, text.length - 1)
+      : text;
   // Get enabled built-in handlers
   final enabledBuiltIns = _getEnabledBuiltInHandlers(options);
   // Combine with custom handlers (default priority: 100)

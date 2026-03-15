@@ -28,15 +28,12 @@ void main() {
       expect(remend(text), equals(text));
     });
 
-    test(
-      'should handle incomplete code blocks at end of chunked response',
-      () {
-        expect(
-          remend('Some text\n```js\nconsole.log'),
-          equals('Some text\n```js\nconsole.log'),
-        );
-      },
-    );
+    test('should handle incomplete code blocks at end of chunked response', () {
+      expect(
+        remend('Some text\n```js\nconsole.log'),
+        equals('Some text\n```js\nconsole.log'),
+      );
+    });
 
     test('should handle code blocks with trailing content', () {
       const text = '```\ncode\n```\nMore text';
@@ -90,8 +87,7 @@ void main() {
     test(
       'should correctly handle code on same line as opening backticks with closing on newline',
       () {
-        const text =
-            '```python def greet(name): return f"Hello, {name}!"\n```';
+        const text = '```python def greet(name): return f"Hello, {name}!"\n```';
         expect(remend(text), equals(text));
         final result = remend(text);
         expect(result, isNot(contains('````')));
@@ -116,21 +112,18 @@ void main() {
       },
     );
 
-    test(
-      'should still detect actual incomplete links outside of code blocks',
-      () {
-        const text =
-            "Here's a code block:\n```bash\necho \"test\"\n```\nAnd here's an [incomplete link";
-        final result = remend(text);
-        expect(result, contains('streamdown:incomplete-link'));
-        expect(
-          result,
-          equals(
-            "Here's a code block:\n```bash\necho \"test\"\n```\nAnd here's an [incomplete link](streamdown:incomplete-link)",
-          ),
-        );
-      },
-    );
+    test('should still detect actual incomplete links outside of code blocks', () {
+      const text =
+          "Here's a code block:\n```bash\necho \"test\"\n```\nAnd here's an [incomplete link";
+      final result = remend(text);
+      expect(result, contains('streamdown:incomplete-link'));
+      expect(
+        result,
+        equals(
+          "Here's a code block:\n```bash\necho \"test\"\n```\nAnd here's an [incomplete link](streamdown:incomplete-link)",
+        ),
+      );
+    });
 
     test(
       'should not add incomplete-link marker after complete code blocks - #227',
@@ -203,20 +196,17 @@ void main() {
       },
     );
 
-    test(
-      'should still complete emphasis when * is only outside code blocks',
-      () {
-        const input =
-            '```mermaid\nstateDiagram-v2\n    [*] --> Idle\n```\n\nHere is *incomplete italic';
-        final result = remend(input);
-        expect(
-          result,
-          equals(
-            '```mermaid\nstateDiagram-v2\n    [*] --> Idle\n```\n\nHere is *incomplete italic*',
-          ),
-        );
-      },
-    );
+    test('should still complete emphasis when * is only outside code blocks', () {
+      const input =
+          '```mermaid\nstateDiagram-v2\n    [*] --> Idle\n```\n\nHere is *incomplete italic';
+      final result = remend(input);
+      expect(
+        result,
+        equals(
+          '```mermaid\nstateDiagram-v2\n    [*] --> Idle\n```\n\nHere is *incomplete italic*',
+        ),
+      );
+    });
 
     test('should handle incomplete markdown after code block (#302)', () {
       const text = '```css\ncode here\n```\n\n**incomplete bold';

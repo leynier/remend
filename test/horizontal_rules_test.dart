@@ -58,12 +58,8 @@ void main() {
 
     test('should handle multiple horizontal rules', () {
       expect(
-        remend(
-          'Section 1\n\n---\n\nSection 2\n\n---\n\nSection 3',
-        ),
-        equals(
-          'Section 1\n\n---\n\nSection 2\n\n---\n\nSection 3',
-        ),
+        remend('Section 1\n\n---\n\nSection 2\n\n---\n\nSection 3'),
+        equals('Section 1\n\n---\n\nSection 2\n\n---\n\nSection 3'),
       );
     });
 

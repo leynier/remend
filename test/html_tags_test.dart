@@ -53,10 +53,7 @@ void main() {
     });
 
     test('should strip only the incomplete tag, preserving prior content', () {
-      expect(
-        remend('Some text here\n\n<casecard'),
-        equals('Some text here'),
-      );
+      expect(remend('Some text here\n\n<casecard'), equals('Some text here'));
       expect(
         remend('# Heading\n\nParagraph <custom'),
         equals('# Heading\n\nParagraph'),

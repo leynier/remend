@@ -22,9 +22,7 @@ void main() {
       () {
         expect(
           remend('Text with [link and **bold'),
-          equals(
-            'Text with [link and **bold](streamdown:incomplete-link)',
-          ),
+          equals('Text with [link and **bold](streamdown:incomplete-link)'),
         );
       },
     );
@@ -51,10 +49,7 @@ void main() {
     });
 
     test('should handle dollar sign inside other formatting', () {
-      expect(
-        remend(r'**bold with $x^2'),
-        equals(r'**bold with $x^2**'),
-      );
+      expect(remend(r'**bold with $x^2'), equals(r'**bold with $x^2**'));
     });
 
     test('should handle deeply nested incomplete formatting', () {
@@ -82,10 +77,7 @@ void main() {
         equals('combined **_bold and italic_**'),
       );
       expect(remend('**_text'), equals('**_text_**'));
-      expect(
-        remend('_italic and **bold'),
-        equals('_italic and **bold**_'),
-      );
+      expect(remend('_italic and **bold'), equals('_italic and **bold**_'));
     });
   });
 }

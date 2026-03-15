@@ -12,8 +12,10 @@ import 'code_block_utils.dart';
 // - NOT followed by another ~ (to avoid matching ~~)
 // - followed by a word character
 // Uses Unicode-aware \p{L} and \p{N} for CJK and other scripts
-final _singleTildePattern =
-    RegExp(r'(?<=[\p{L}\p{N}_])~(?!~)(?=[\p{L}\p{N}_])', unicode: true);
+final _singleTildePattern = RegExp(
+  r'(?<=[\p{L}\p{N}_])~(?!~)(?=[\p{L}\p{N}_])',
+  unicode: true,
+);
 
 String handleSingleTildeEscape(String text) {
   // Quick check: if there's no ~ in the text, skip processing

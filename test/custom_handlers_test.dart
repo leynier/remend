@@ -11,19 +11,13 @@ void main() {
         name: 'test',
         handle: (text) => text.replaceAll('foo', 'bar'),
       );
-      expect(
-        remend('foo', RemendOptions(handlers: [handler])),
-        equals('bar'),
-      );
+      expect(remend('foo', RemendOptions(handlers: [handler])), equals('bar'));
     });
 
     test(
       'should execute custom handlers after built-in handlers by default',
       () {
-        final handler = RemendHandler(
-          name: 'test',
-          handle: (text) => '$text!',
-        );
+        final handler = RemendHandler(name: 'test', handle: (text) => '$text!');
         expect(
           remend('**bold', RemendOptions(handlers: [handler])),
           equals('**bold**!'),
@@ -105,10 +99,7 @@ void main() {
     });
 
     test('should work with disabled built-in handlers', () {
-      final handler = RemendHandler(
-        name: 'test',
-        handle: (text) => '$text!',
-      );
+      final handler = RemendHandler(name: 'test', handle: (text) => '$text!');
       expect(
         remend('**bold', RemendOptions(bold: false, handlers: [handler])),
         equals('**bold!'),
@@ -141,10 +132,7 @@ void main() {
     });
 
     test('should handle empty handlers array', () {
-      expect(
-        remend('**bold', RemendOptions(handlers: [])),
-        equals('**bold**'),
-      );
+      expect(remend('**bold', RemendOptions(handlers: [])), equals('**bold**'));
     });
   });
 

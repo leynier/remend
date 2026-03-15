@@ -35,10 +35,7 @@ void main() {
     });
 
     test('should handle multiline block KaTeX', () {
-      expect(
-        remend('\$\$\nx = 1\ny = 2'),
-        equals('\$\$\nx = 1\ny = 2\n\$\$'),
-      );
+      expect(remend('\$\$\nx = 1\ny = 2'), equals('\$\$\nx = 1\ny = 2\n\$\$'));
     });
   });
 
@@ -59,10 +56,7 @@ void main() {
     });
 
     test('should NOT complete odd number of dollar signs', () {
-      expect(
-        remend(r'$first$ and $second'),
-        equals(r'$first$ and $second'),
-      );
+      expect(remend(r'$first$ and $second'), equals(r'$first$ and $second'));
     });
 
     test(r'should not complete single $ but should complete block $$', () {
@@ -233,8 +227,7 @@ void main() {
       () {
         const text = r'$x_1 + x_2 + x_3 = y_1$';
         expect(remend(text), equals(text));
-        const text2 =
-            r'$$\sum_{i=1}^{n} x_i = \prod_{j=1}^{m} y_j$$';
+        const text2 = r'$$\sum_{i=1}^{n} x_i = \prod_{j=1}^{m} y_j$$';
         expect(remend(text2), equals(text2));
       },
     );

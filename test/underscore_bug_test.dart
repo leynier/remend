@@ -88,8 +88,7 @@ void main() {
       });
 
       test('should handle markdown in sentences with snake_case', () {
-        const input =
-            'The user_id field stores the _unique identifier';
+        const input = 'The user_id field stores the _unique identifier';
         expect(
           remend(input),
           equals('The user_id field stores the _unique identifier_'),

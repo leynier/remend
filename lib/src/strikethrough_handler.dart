@@ -28,8 +28,9 @@ String handleIncompleteStrikethrough(String text) {
     final halfCompleteMatch = halfCompleteTildePattern.firstMatch(text);
     if (halfCompleteMatch != null) {
       // Don't close if the marker is inside an inline code span or fenced code block
-      final markerIndex =
-          text.lastIndexOf(halfCompleteMatch[0]!.substring(0, 2));
+      final markerIndex = text.lastIndexOf(
+        halfCompleteMatch[0]!.substring(0, 2),
+      );
       if (isInsideCodeBlock(text, markerIndex) ||
           isWithinCompleteInlineCode(text, markerIndex)) {
         return text;

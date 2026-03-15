@@ -48,10 +48,7 @@ void main() {
     });
 
     test('should not confuse single asterisks with bold markers', () {
-      expect(
-        remend('**bold** and *italic'),
-        equals('**bold** and *italic*'),
-      );
+      expect(remend('**bold** and *italic'), equals('**bold** and *italic*'));
     });
 
     test(
@@ -72,7 +69,8 @@ void main() {
       },
     );
 
-    test('should handle escaped asterisks correctly in countSingleAsterisks',
+    test(
+      'should handle escaped asterisks correctly in countSingleAsterisks',
       () {
         // Test: escaped asterisks should be skipped
         expect(
@@ -117,10 +115,7 @@ void main() {
     test(
       'should not confuse single underscores with double underscore markers',
       () {
-        expect(
-          remend('__bold__ and _italic'),
-          equals('__bold__ and _italic_'),
-        );
+        expect(remend('__bold__ and _italic'), equals('__bold__ and _italic_'));
       },
     );
 
@@ -131,26 +126,21 @@ void main() {
       expect(remend(text2), equals('some\\_text_with_underscores'));
     });
 
-    test('should handle mixed escaped and unescaped underscores correctly',
-      () {
-        expect(
-          remend('\\_escaped\\_ and _unescaped'),
-          equals('\\_escaped\\_ and _unescaped_'),
-        );
-        expect(
-          remend('Start \\_escaped\\_ middle _incomplete'),
-          equals('Start \\_escaped\\_ middle _incomplete_'),
-        );
-        expect(
-          remend('\\_fully\\_escaped\\_'),
-          equals('\\_fully\\_escaped\\_'),
-        );
-        expect(
-          remend('\\_escaped\\_ _complete_ pair'),
-          equals('\\_escaped\\_ _complete_ pair'),
-        );
-      },
-    );
+    test('should handle mixed escaped and unescaped underscores correctly', () {
+      expect(
+        remend('\\_escaped\\_ and _unescaped'),
+        equals('\\_escaped\\_ and _unescaped_'),
+      );
+      expect(
+        remend('Start \\_escaped\\_ middle _incomplete'),
+        equals('Start \\_escaped\\_ middle _incomplete_'),
+      );
+      expect(remend('\\_fully\\_escaped\\_'), equals('\\_fully\\_escaped\\_'));
+      expect(
+        remend('\\_escaped\\_ _complete_ pair'),
+        equals('\\_escaped\\_ _complete_ pair'),
+      );
+    });
 
     test('should handle underscores with unicode word characters', () {
       expect(remend('café_price'), equals('café_price'));
@@ -178,7 +168,8 @@ void main() {
       },
     );
 
-    test('should handle incomplete single underscore with trailing newlines',
+    test(
+      'should handle incomplete single underscore with trailing newlines',
       () {
         expect(remend('Text with _italic\n'), equals('Text with _italic_\n'));
         expect(remend('_incomplete\n\n'), equals('_incomplete_\n\n'));
