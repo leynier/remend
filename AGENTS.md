@@ -17,12 +17,14 @@ This is the single most important constraint in the repo.
 Every file in `lib/src/` is a direct 1:1 translation of a file in `streamdown/packages/remend/src/` — same count, same names (with `_` instead of `-`). Every test file in `test/` mirrors a file in `streamdown/packages/remend/__tests__/` in the same way.
 
 ### What must match exactly
+
 - All logic and algorithms
 - All comments (translated to `///` Dart style)
 - Handler names, option names, and priorities
 - Test structure and test cases
 
 ### Dart-only differences allowed
+
 - `snake_case` filenames instead of `kebab-case`
 - `///` doc comments instead of JSDoc `/** */`
 - `enum LinkMode` instead of a TypeScript string union type
@@ -30,6 +32,7 @@ Every file in `lib/src/` is a direct 1:1 translation of a file in `streamdown/pa
 - `RegExp` with Dart flags instead of JS regex literals
 
 ### What you must NOT do
+
 - Add new handlers, change handler priorities, or rename options without a corresponding change in the upstream TypeScript first
 - Add abstraction layers, helpers, or utilities that have no counterpart in the TypeScript source
 - Change the behavior of any handler unless the upstream TypeScript changed first
