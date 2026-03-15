@@ -2,6 +2,7 @@
 /// syntax during streaming.
 library;
 
+export 'src/emphasis_handlers.dart';
 export 'src/link_mode.dart';
 export 'src/remend.dart';
 export 'src/remend_handler.dart';

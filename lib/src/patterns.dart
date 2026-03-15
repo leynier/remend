@@ -1,0 +1,16 @@
+final boldPattern = RegExp(r'(\*\*)([^*]*\*?)$');
+final italicPattern = RegExp(r'(__)([^_]*?)$');
+final boldItalicPattern = RegExp(r'(\*\*\*)([^*]*?)$');
+final singleAsteriskPattern = RegExp(r'(\*)([^*]*?)$');
+final singleUnderscorePattern = RegExp(r'(_)([^_]*?)$');
+final inlineCodePattern = RegExp(r'(`)([^`]*?)$');
+final strikethroughPattern = RegExp(r'(~~)([^~]*?)$');
+final whitespaceOrMarkersPattern = RegExp(r'^[\s_~*`]*$');
+final listItemPattern = RegExp(r'^[\s]*[-*+][\s]+$');
+final letterNumberUnderscorePattern = RegExp(r'[\p{L}\p{N}_]', unicode: true);
+final inlineTripleBacktickPattern = RegExp(r'^```[^`\n]*```?$');
+final fourOrMoreAsterisksPattern = RegExp(r'^\*{4,}$');
+final halfCompleteUnderscorePattern = RegExp(r'(__)([^_]+)_$');
+final halfCompleteTildePattern = RegExp(r'(~~)([^~]+)~$');
+final doubleUnderscoreGlobalPattern = RegExp(r'__');
+final doubleTildeGlobalPattern = RegExp(r'~~');
