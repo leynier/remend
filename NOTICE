@@ -1,0 +1,8 @@
+This project is a Dart port of "streamdown" by Vercel, Inc.
+
+Original source: https://github.com/vercel/streamdown
+Copyright 2023 Vercel, Inc.
+Licensed under the Apache License, Version 2.0.
+You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+
+Modifications: Ported from TypeScript to Dart by Leynier Gutiérrez González.
