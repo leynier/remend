@@ -14,29 +14,13 @@ It is a lightweight, zero-dependency library that completes incomplete Markdown 
 
 This is the single most important constraint in the repo.
 
-**Every file in `lib/src/` is a direct translation of a file in `streamdown/packages/remend/src/`.**
-
-| Dart (`lib/src/`) | TypeScript (`streamdown/packages/remend/src/`) |
-|---|---|
-| `code_block_utils.dart` | `code-block-utils.ts` |
-| `comparison_operator_handler.dart` | `comparison-operator-handler.ts` |
-| `emphasis_handlers.dart` | `emphasis-handlers.ts` |
-| `html_tag_handler.dart` | `html-tag-handler.ts` |
-| `inline_code_handler.dart` | `inline-code-handler.ts` |
-| `katex_handler.dart` | `katex-handler.ts` |
-| `link_image_handler.dart` | `link-image-handler.ts` |
-| `patterns.dart` | `patterns.ts` |
-| `remend.dart` | `index.ts` |
-| `setext_heading_handler.dart` | `setext-heading-handler.ts` |
-| `single_tilde_handler.dart` | `single-tilde-handler.ts` |
-| `strikethrough_handler.dart` | `strikethrough-handler.ts` |
-| `utils.dart` | `utils.ts` |
+Every file in `lib/src/` is a direct 1:1 translation of a file in `streamdown/packages/remend/src/` — same count, same names (with `_` instead of `-`). Every test file in `test/` mirrors a file in `streamdown/packages/remend/__tests__/` in the same way.
 
 ### What must match exactly
 - All logic and algorithms
 - All comments (translated to `///` Dart style)
 - Handler names, option names, and priorities
-- Test structure and test cases (23 test files mirror the TypeScript `__tests__/`)
+- Test structure and test cases
 
 ### Dart-only differences allowed
 - `snake_case` filenames instead of `kebab-case`
@@ -70,26 +54,12 @@ When the `streamdown` submodule receives a new version of the npm package:
 
 ```
 lib/
-  remend.dart          # Barrel file — public exports
-  src/
-    remend.dart        # Main entry: RemendHandler, RemendOptions, remend() — mirrors index.ts
-    link_image_handler.dart  # Also defines LinkMode enum
-    patterns.dart      # All shared regex patterns
-    utils.dart         # Context utilities: isWithinCodeBlock, isWithinMathBlock, etc.
-    code_block_utils.dart
-    emphasis_handlers.dart
-    inline_code_handler.dart
-    strikethrough_handler.dart
-    katex_handler.dart
-    html_tag_handler.dart
-    setext_heading_handler.dart
-    comparison_operator_handler.dart
-    single_tilde_handler.dart
-
-test/                  # 23 test files mirroring the TypeScript __tests__/ directory
-streamdown/            # Git submodule — original TypeScript implementation (source of truth)
+  remend.dart       # Barrel file — public exports
+  src/              # 1:1 with streamdown/packages/remend/src/ (snake_case filenames)
+test/               # 1:1 with streamdown/packages/remend/__tests__/ (snake_case filenames)
+streamdown/         # Git submodule — original TypeScript implementation (source of truth)
 .github/workflows/
-  ci.yaml              # CI: format + analyze + test on every push/PR to main
+  ci.yaml           # CI: format + analyze + test on every push/PR to main
 ```
 
 ## Public API
