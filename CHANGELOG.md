@@ -1,3 +1,9 @@
+## 1.3.0
+
+- Add opt-in inline KaTeX completion (`$formula` → `$formula$`) via a new `inlineKatex` option that defaults to `false` to avoid ambiguity with currency symbols. Also fixes block KaTeX completion when streaming produces a partial closing `$`.
+- Escape single `~` between word characters to prevent false strikethrough rendering (e.g. `20~25°C` no longer renders as strikethrough). Adds a new `singleTilde` option (enabled by default) that can be disabled via `RemendOptions(singleTilde: false)`.
+- Add comprehensive broken markdown variants test suite.
+
 ## 1.2.2
 
 Initial Dart port of the [`remend`](https://www.npmjs.com/package/remend) npm package (v1.2.2).
