@@ -1,3 +1,7 @@
+## 1.3.1
+
+- Lower minimum SDK constraint from `^3.11.1` to `^3.10.7` for broader compatibility.
+
 ## 1.3.0
 
 - Add opt-in inline KaTeX completion (`$formula` → `$formula$`) via a new `inlineKatex` option that defaults to `false` to avoid ambiguity with currency symbols. Also fixes block KaTeX completion when streaming produces a partial closing `$`.
